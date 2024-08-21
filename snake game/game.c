@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <ncurses.h>
 
 char *replicate_string(const char *str, int times)
 {
@@ -33,8 +34,11 @@ char *replicate_string(const char *str, int times)
 void main()
 {
     WINDOW *win = initscr();
+      start_color();
+    
     keypad(win, true);
     nodelay(win, true);
+     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     int posX = 0;
     int posY = 0;
     int foodX = rand() % 20;
@@ -69,6 +73,7 @@ void main()
         posX += dirX;
         posY += dirY;
         erase();
+        attron(COLOR_PAIR(1));
         char *snake = replicate_string("*", score + 1);
         mvaddstr(posY, posX, snake);
         mvaddstr(foodY, foodX, "&");
